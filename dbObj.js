@@ -120,6 +120,8 @@ baseDb = Class.extend({
 				(typeof value != 'undefined' ? ' to "' + value + '"' : ''));
 			if (typeof value != 'undefined')
 				this.updatedDbFields[field] = this[field] = value;
+			else
+				this.updatedDbFields[field] = this[field];
 		}
 		return true;
 	},
