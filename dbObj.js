@@ -9,26 +9,6 @@ var getCallerLine = function() {
 	}
 }
 
-
-defaultInsertDeny = function(user_id, doc) {
-	// create time (createdAt) and modify time (updatedAt)
-	doc.ctime = doc.mtime = new Date().getTime();
-
-	// insert an author_id if no author_id/user_id set
-	if (!(doc.author_id == user_id || doc.user_id == user_id))
-		doc.author_id = user_id;
-
-	return false;
-}
-
-defaultUpdateDeny = function(user_id, doc) {
-	doc.mtime = new Date().getTime();
-	// don't allow change of user_id unless admin
-	// maybe better to do per document/type
-	return false;
-}
-
-
 baseDb = Class.extend({
 	init: function(obj) {
 		if (!obj)
@@ -140,3 +120,21 @@ baseDb = Class.extend({
 		return _.pick(this, this.dbFields);
 	}
 });
+
+baseDb.defaultInsertDeny = function(user_id, doc) {
+	// create time (createdAt) and modify time (updatedAt)
+	doc.ctime = doc.mtime = new Date().getTime();
+
+	// insert an author_id if no author_id/user_id set
+	if (!(doc.author_id == user_id || doc.user_id == user_id))
+		doc.author_id = user_id;
+
+	return false;
+}
+
+baseDb.defaultUpdateDeny = function(user_id, doc) {
+	doc.mtime = new Date().getTime();
+	// don't allow change of user_id unless admin
+	// maybe better to do per document/type
+	return false;
+}
